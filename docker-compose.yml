@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  alpine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloud_symfony_docker
+    restart: on-failure
+    ports:
+      - "1234:80"
+    volumes:
+      - ./conf/site.conf:/etc/nginx/http.d/default.conf
+      - ./src:/var/www/html
+    networks:
+      - dev
+
+  db:
+    image: mariadb:10.7.1
+    container_name: cloud_mariadb_docker
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: '1234'
+    ports:
+      - "3307:3307"
+    networks:
+      - dev
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: cloud_phpmyadmin_docker
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+    networks:
+      - dev
+
+volumes:
+  db-data:
+
+networks:
+  dev:
