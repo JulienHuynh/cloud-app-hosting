@@ -1,24 +1,20 @@
-import logo from './logo.svg';
+
 import './App.css';
+import Suivi from './components/Suivi';
+import Depots from './components/Depots';
+import Header from './components/Header';
+import { Routes, Route} from 'react-router-dom'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          GROUPE 16 V2
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Header />
+    <Routes>
+      <Route path="/" element={<Suivi />} />
+      <Route path="/depots" element={<Depots />}/>
+    </Routes>
+
+    </>
   );
 }
 
