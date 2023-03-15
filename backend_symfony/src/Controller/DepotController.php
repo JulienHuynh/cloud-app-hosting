@@ -15,17 +15,19 @@ class DepotController extends AbstractController
     #[Route('/new-repository', name: 'new_repository', methods: "POST")]
     public function newRepository(DepotRepository $depotRepository, Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $repositoryName = strtolower($request->get('dir'));
+        $repositoryFiles = $request->get('files');
+
+        $repositoryName = strtolower($request->get('repositoryName'));
         $repositoryName = str_replace(' ', '-', $repositoryName);;
         $username = $this->getUser()->getUsername();
         $repositoryPath = '/home/' . $username . '/repositories/' . $repositoryName;
 
         $newRepository = (new Depot())
-            ->setName($request->get('name'))
+            ->setName($repositoryName)
             ->setDirectory($repositoryPath)
             ->setUser($this->getUser());
 
-        shell_exec('../../scripts/create_new_repository.sh ' . $repositoryPath . $repositoryName . $username);
+        shell_exec("../../scripts/create_new_repository.sh  '$repositoryPath' '$repositoryName' '$username' '$repositoryFiles'");
 
         $entityManager->persist($newRepository);
         $entityManager->flush();
