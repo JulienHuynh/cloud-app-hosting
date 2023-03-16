@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vos dépôts{% endblock %}
+
+{% block body %}
+
+    <h1 class="h3 mb-3 font-weight-normal">Vos dépôts</h1>
+
+    {% for repo in repositories %}
+        <div>{{ repo.name }} <span>- {{ repo.getCreatedAt().format('Y-m-d') }}</span></div>
+    {% endfor %}
+
+    {% if repositories|length == 0 %}
+        <div class="alert alert-info" role="alert">
+            Vous n'avez pas encore de dépôt.
+        </div>
+    {% endif %}
+
+{% endblock %}

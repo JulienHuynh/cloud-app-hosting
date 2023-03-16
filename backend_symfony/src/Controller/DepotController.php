@@ -6,6 +6,7 @@ use App\Entity\Depot;
 use App\Repository\DepotRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Env\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,12 +39,12 @@ class DepotController extends AbstractController
         ]);
     }
 
-    #[Route('/user-repositories', name: 'user_repositories', methods: "GET")]
-    public function getUserRepositories(DepotRepository $depotRepository): JsonResponse
+    #[Route('/user-repositories', name: 'app_user_repositories', methods: "GET")]
+    public function getUserRepositories(DepotRepository $depotRepository): Response
     {
         $userRepositories = $depotRepository->findBy(['user' => $this->getUser()]);
 
-        return $this->json([
+        return $this->render('pages/userRepositories.html.twig', [
             'repositories' => $userRepositories
         ]);
     }
