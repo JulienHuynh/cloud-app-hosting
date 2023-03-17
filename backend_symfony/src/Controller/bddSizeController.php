@@ -11,11 +11,14 @@ class bddSizeController extends AbstractController
     #[Route('/bdd-size', name: 'bdd-size')]
     public function bddSize(Bdd2Repository $BddRepository): JsonResponse
     {
-        shell_exec("../../scripts/create_new_mysqldump.sh  '$repositoryPath' '$repositoryName' '$usern' '$password' '$bddname'");
-        $filename = $repositoryPath+'/'+$repositoryName+'.txt';
-        $filesize = filesize($filename) /1024/1024;
+        shell_exec("../../scripts/create_new_mysqldump.sh '$usern' '$bddname' '$password' ");
+        shell_exec("../../scripts/create_new_espacedisk.sh");
+        $diskSpace = file_get_contents("../../scripts/backup/diskspace");
+        $backupMysql = "../../scripts/backup/backupmysql";
+        $backupMysqlSize = filesize($backupMysql) /1024/1024;
         return $this->json([
-            'tags' => $filesize + ' MB'
+            'Mysql usedSpace' => $backupMysqlSize + ' MB',
+            'diskSpace'       => $diskSpace,
         ]);
 
     }
