@@ -13,12 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DepotController extends AbstractController
 {
+    #[Route('/new-repository', name: 'app_new_repository', methods: "GET")]
+    public function newRepositoryRender(): Response
+    {
+        return $this->render('pages/new-repository.html.twig');
+    }
+
     #[Route('/new-repository', name: 'new_repository', methods: "POST")]
-    public function newRepository(DepotRepository $depotRepository, Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function addNewRepository(DepotRepository $depotRepository, Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $repositoryFiles = $request->get('files');
-
         $repositoryName = strtolower($request->get('repositoryName'));
+
         $repositoryName = str_replace(' ', '-', $repositoryName);;
         $username = $this->getUser()->getUsername();
         $repositoryPath = '/home/' . $username . '/repositories/' . $repositoryName;
