@@ -1,9 +1,1 @@
-REPOSITORY_PATH=$1
-REPOSITORY_NAME=$2
-USER=$3
-PASSWORD=$4
-BDDNAME= $5
-
-
-mysqldump -u "${USER}" -p "${BDDNAME}" > "${REPOSITORY_PATH}/${REPOSITORY_NAME}" && "${PASSWORD}"
-
+mysqldump -u $1 -p$2 $3 > ./var/www/groupe16/html/backend_symfony/scripts/backup/backupmysql
