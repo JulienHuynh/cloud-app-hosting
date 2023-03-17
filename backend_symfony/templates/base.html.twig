@@ -24,6 +24,7 @@
                         {% if app.user %}
                             <a class="text-warning me-3" href="{{ path('app_home') }}">Accueil</a>
                             <a class="text-warning me-3" href="{{ path('app_user_repositories') }}">Mes dépôts</a>
+                            <a class="text-warning me-3" href="{{ path('new_repository') }}">DropZone</a>
                             <a class="text-warning" href="{{ path('app_logout') }}">Logout</a>
                         {% endif %}
                     </ul>
